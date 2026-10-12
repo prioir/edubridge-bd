@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: adminHead('Dashboard')}"></head>
+
+<body class="eb-admin">
+
+<!-- Navigation -->
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4 admin-content">
+
+    <!-- Flash messages -->
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <!-- Dashboard Header -->
+    <section class="admin-dashboard-header d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+
+        <div>
+            <p class="admin-eyebrow mb-2">EDUBRIDGE BD / ADMIN PANEL</p>
+
+            <h1 class="admin-dashboard-title mb-2">
+                Admin Dashboard
+            </h1>
+
+            <p class="admin-dashboard-subtitle mb-0">
+                Monitor opportunities, publication status and student accounts.
+            </p>
+        </div>
+
+        <a class="btn btn-primary admin-add-btn"
+           th:href="@{/admin/opportunities/new}">
+            <span class="me-2">+</span>
+            Add Opportunity
+        </a>
+
+    </section>
+
+    <!-- Statistics Cards -->
+    <section class="admin-stats-grid row g-3 mb-4">
+
+        <!-- Total Opportunities -->
+        <div class="col-6 col-xl-3">
+            <div class="eb-summary admin-stat-card stat-blue h-100">
+
+                <div class="admin-stat-top">
+                    <span class="admin-stat-label">Total Opportunities</span>
+                    <span class="admin-stat-icon">&#128203;</span>
+                </div>
+
+                <div class="eb-summary-number admin-stat-number"
+                     th:text="${totalOpportunities}">
+                    0
+                </div>
+
+                <div class="admin-stat-caption">
+                    All listed opportunities
+                </div>
+
+                <div class="admin-stat-decoration"></div>
+
+            </div>
+        </div>
+
+        <!-- Published -->
+        <div class="col-6 col-xl-3">
+            <div class="eb-summary eb-summary-green admin-stat-card stat-green h-100">
+
+                <div class="admin-stat-top">
+                    <span class="admin-stat-label">Published</span>
+                    <span class="admin-stat-icon">&#10003;</span>
+                </div>
+
+                <div class="eb-summary-number admin-stat-number"
+                     th:text="${publishedCount}">
+                    0
+                </div>
+
+                <div class="admin-stat-caption">
+                    Visible to students
+                </div>
+
+                <div class="admin-stat-decoration"></div>
+
+            </div>
+        </div>
+
+        <!-- Unpublished -->
+        <div class="col-6 col-xl-3">
+            <div class="eb-summary eb-summary-amber admin-stat-card stat-amber h-100">
+
+                <div class="admin-stat-top">
+                    <span class="admin-stat-label">Unpublished</span>
+                    <span class="admin-stat-icon">&#9998;</span>
+                </div>
+
+                <div class="eb-summary-number admin-stat-number"
+                     th:text="${unpublishedCount}">
+                    0
+                </div>
+
+                <div class="admin-stat-caption">
+                    Draft opportunities
+                </div>
+
+                <div class="admin-stat-decoration"></div>
+
+            </div>
+        </div>
+
+        <!-- Student Accounts -->
+        <div class="col-6 col-xl-3">
+            <div class="eb-summary eb-summary-violet admin-stat-card stat-violet h-100">
+
+                <div class="admin-stat-top">
+                    <span class="admin-stat-label">Student Accounts</span>
+                    <span class="admin-stat-icon">&#128101;</span>
+                </div>
+
+                <div class="eb-summary-number admin-stat-number"
+                     th:text="${studentCount}">
+                    0
+                </div>
+
+                <div class="admin-stat-caption">
+                    Registered students
+                </div>
+
+                <div class="admin-stat-decoration"></div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Recent Opportunities -->
+    <section class="eb-panel admin-recent-panel p-0">
+
+        <div class="admin-panel-heading d-flex flex-wrap justify-content-between align-items-center gap-3">
+
+            <div>
+                <p class="admin-section-label mb-1">
+                    CONTENT OVERVIEW
+                </p>
+
+                <h2 class="h5 admin-panel-title mb-1">
+                    Recent Opportunities
+                </h2>
+
+                <p class="text-muted small mb-0">
+                    A quick look at recently added opportunities.
+                </p>
+            </div>
+
+            <a class="admin-manage-link"
+               th:href="@{/admin/opportunities}">
+                Manage All
+                <span class="ms-1">&rarr;</span>
+            </a>
+
+        </div>
+
+        <div class="table-responsive admin-table-wrapper">
+
+            <table class="table align-middle mb-0 admin-dashboard-table">
+
+                <thead>
+                <tr>
+                    <th scope="col">Opportunity</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <!-- Empty State -->
+                <tr th:if="${#lists.isEmpty(recentOpportunities)}">
+                    <td colspan="4" class="text-center py-5">
+
+                        <div class="admin-empty-icon mb-3">
+                            &#128196;
+                        </div>
+
+                        <h3 class="h6 mb-2">
+                            No opportunities yet
+                        </h3>
+
+                        <p class="text-muted small mb-3">
+                            Your recently added opportunities will appear here.
+                        </p>
+
+                        <a class="btn btn-primary btn-sm"
+                           th:href="@{/admin/opportunities/new}">
+                            + Add First Opportunity
+                        </a>
+
+                    </td>
+                </tr>
+
+                <!-- Recent Opportunity Rows -->
+                <tr th:each="o : ${recentOpportunities}">
+
+                    <td>
+                        <div class="admin-recent-title"
+                             th:text="${o.title}">
+                            Opportunity Title
+                        </div>
+                        <div class="admin-recent-subtitle">
+                            EduBridge BD opportunity
+                        </div>
+                    </td>
+
+                    <td>
+                            <span class="admin-category-badge"
+                                  th:text="${o.category.displayName}">
+                                Category
+                            </span>
+                    </td>
+
+                    <td>
+                            <span class="admin-deadline-text"
+                                  th:text="${#temporals.format(o.deadline, 'dd MMM yyyy')}">
+                                01 Jan 2026
+                            </span>
+                    </td>
+
+                    <td>
+                            <span th:if="${o.published}"
+                                  class="admin-status-badge status-published">
+                                <span class="admin-status-dot"></span>
+                                Published
+                            </span>
+
+                        <span th:unless="${o.published}"
+                              class="admin-status-badge status-draft">
+                                <span class="admin-status-dot"></span>
+                                Draft
+                            </span>
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+    <!-- Bottom Note -->
+    <div class="admin-dashboard-note mt-3">
+        <span class="admin-note-icon">&#9432;</span>
+        <span>
+            Use the Manage section to edit opportunities or change their publication status.
+        </span>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<!-- Scripts -->
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+
+</body>
+</html>

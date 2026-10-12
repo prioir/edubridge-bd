@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="eb-hero eb-hero-cinematic">
+    <video class="eb-hero-video" autoplay muted loop playsinline aria-hidden="true">
+        <source th:src="@{/video/campus-bg.mp4}" type="video/mp4">
+    </video>
+    <div class="eb-hero-overlay"></div>
+    <div class="container eb-hero-content">
+        <div class="eb-eyebrow"><span></span> YOUR FUTURE STARTS HERE <span></span></div>
+        <h1>Discover Your Next<br><span>Opportunity.</span></h1>
+        <p class="eb-hero-text">Scholarships, internships, competitions and training — all in one place.</p>
+        <form class="eb-search" method="get" th:action="@{/opportunities}">
+            <div class="input-group">
+                <span class="input-group-text" aria-hidden="true">⌕</span>
+                <input type="text" name="q" class="form-control" placeholder="Search scholarships, internships, competitions..." aria-label="Search opportunities">
+                <button class="btn btn-primary" type="submit" aria-label="Search">→</button>
+            </div>
+        </form>
+        <div class="eb-hero-categories">
+            <a class="eb-category-tile eb-neon-purple" th:href="@{/opportunities(category='SCHOLARSHIP')}"><span class="eb-category-icon">♧</span><strong>Scholarships</strong><small>Find support for your education</small><span class="eb-card-arrow">↗</span></a>
+            <a class="eb-category-tile eb-neon-blue" th:href="@{/opportunities(category='INTERNSHIP')}"><span class="eb-category-icon">▱</span><strong>Internships</strong><small>Build real-world experience</small><span class="eb-card-arrow">↗</span></a>
+            <a class="eb-category-tile eb-neon-green" th:href="@{/opportunities(category='COMPETITION')}"><span class="eb-category-icon">♜</span><strong>Competitions</strong><small>Show your talent and skills</small><span class="eb-card-arrow">↗</span></a>
+            <a class="eb-category-tile eb-neon-orange" th:href="@{/opportunities(category='TRAINING')}"><span class="eb-category-icon">▤</span><strong>Training</strong><small>Learn skills for your future</small><span class="eb-card-arrow">↗</span></a>
+        </div>
+        <div class="eb-hero-footnote"><span></span> OPPORTUNITIES THAT MOVE YOU FORWARD <span></span></div>
+    </div>
+</section>
+
+<main class="container">
+
+    <section class="my-5">
+        <h2 class="h4 mb-3">Browse by category</h2>
+        <div class="row g-3">
+            <div class="col-6 col-md-3" th:each="c : ${categories}">
+                <a class="eb-category-tile"
+                   th:href="@{/opportunities(category=${c.name()})}" th:text="${c.displayName}">Category</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5" th:if="${!#lists.isEmpty(closingSoon)}">
+        <h2 class="h4 mb-3">Closing in the next 14 days</h2>
+        <div class="list-group eb-deadline-list">
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+               th:each="o : ${closingSoon}" th:href="@{/opportunities/{id}(id=${o.id})}">
+                <span>
+                    <strong th:text="${o.title}">Title</strong>
+                    <span class="text-muted small ms-2" th:text="${o.organizationName}">Org</span>
+                </span>
+                <span class="badge text-bg-warning"
+                      th:text="${o.daysLeft == 0} ? 'Last day today' : ${o.daysLeft} + ' day(s) left'">3 days left</span>
+            </a>
+        </div>
+    </section>
+
+    <section>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h4 mb-0">Recently published</h2>
+            <a th:href="@{/opportunities}">View all &rarr;</a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(recentOpportunities)}" class="alert alert-info">
+            No opportunities have been published yet. Please check back soon.
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4" th:each="o : ${recentOpportunities}">
+                <div th:replace="~{fragments/layout :: card(${o})}"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

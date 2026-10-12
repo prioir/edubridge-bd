@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Opportunities')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <h1 class="h3 mb-3">Opportunities</h1>
+
+    <!-- A normal GET form: search + filter, no JavaScript needed -->
+    <form class="row g-2 mb-4 eb-filter" method="get" th:action="@{/opportunities}">
+        <div class="col-md-6">
+            <input type="text" name="q" class="form-control" th:value="${keyword}"
+                   placeholder="Search by title or organization" aria-label="Search">
+        </div>
+        <div class="col-md-4">
+            <select name="category" class="form-select" aria-label="Category">
+                <option value="">All categories</option>
+                <option th:each="c : ${categories}" th:value="${c.name()}" th:text="${c.displayName}"
+                        th:selected="${c == selectedCategory}">Category</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <div class="col-12 d-flex flex-wrap gap-3 pt-1">
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="verified" name="verified" value="true" th:checked="${verifiedOnly}"><label class="form-check-label" for="verified">Verified only</label></div>
+            <div class="form-check"><input class="form-check-input" type="checkbox" id="closingSoon" name="closingSoon" value="true" th:checked="${closingSoon}"><label class="form-check-label" for="closingSoon">Closing in 14 days</label></div>
+        </div>
+    </form>
+
+    <p class="text-muted small" th:text="${#lists.size(opportunities)} + ' result(s) found'">0 results</p>
+
+    <div th:if="${#lists.isEmpty(opportunities)}" class="alert alert-info">
+        No opportunities match your search. Try different keywords or clear the filter.
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="o : ${opportunities}">
+            <div th:replace="~{fragments/layout :: card(${o})}"></div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My bookmarks')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1 class="h3 mb-3">My bookmarks</h1>
+
+    <div th:if="${#lists.isEmpty(opportunities)}" class="alert alert-info">
+        You have not saved anything yet.
+        <a th:href="@{/opportunities}">Browse opportunities</a> and press "Save to bookmarks".
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" th:each="o : ${opportunities}">
+            <div class="eb-bookmark-wrap h-100 d-flex flex-column">
+                <div th:replace="~{fragments/layout :: card(${o})}"></div>
+                <form method="post" class="mt-2" th:action="@{/student/bookmarks/{id}/remove(id=${o.id})}">
+                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Remove bookmark</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

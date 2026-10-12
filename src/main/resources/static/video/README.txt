@@ -1,0 +1,1 @@
+Add an optimized MP4 named campus-bg.mp4 here to enable the moving homepage background. The homepage has a background-image fallback when the video is absent. Prefer a compressed 8–15 second H.264 clip and only use footage you have permission to use.

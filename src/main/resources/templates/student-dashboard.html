@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My dashboard')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <h1 class="h3">Hello, <span th:text="${fullName}">Student</span></h1>
+    <p class="text-muted">Here is a quick look at your saved opportunities and applications.</p>
+
+    <section class="eb-panel mb-4" aria-label="Profile completion">
+        <div class="d-flex justify-content-between align-items-center mb-2"><strong>Profile completion</strong><span class="fw-semibold" th:text="${profileCompletion} + '%'">0%</span></div>
+        <div class="progress" role="progressbar" aria-label="Profile completion" th:aria-valuenow="${profileCompletion}" aria-valuemin="0" aria-valuemax="100" style="height:8px"><div class="progress-bar" th:style="|width: ${profileCompletion}%|" ></div></div>
+        <a class="small d-inline-block mt-2" th:href="@{/student/profile}" th:if="${profileCompletion < 100}">Complete your profile to improve recommendations</a>
+    </section>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-lg">
+            <a class="eb-stat" th:href="@{/student/bookmarks}">
+                <span class="eb-stat-number" th:text="${bookmarkCount}">0</span>
+                <span class="eb-stat-label">Bookmarks</span>
+            </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg" th:each="entry : ${statusCounts}">
+            <a class="eb-stat" th:href="@{/student/applications}">
+                <span class="eb-stat-number" th:text="${entry.value}">0</span>
+                <span class="eb-stat-label" th:text="${entry.key.displayName}">Status</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="eb-panel">
+                <h2 class="h5">Upcoming deadlines from your bookmarks</h2>
+                <p class="text-muted small" th:if="${#lists.isEmpty(upcoming)}">
+                    Nothing yet. Bookmark an opportunity to see its deadline here.
+                </p>
+                <div class="list-group list-group-flush" th:if="${!#lists.isEmpty(upcoming)}">
+                    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                       th:each="o : ${upcoming}" th:href="@{/opportunities/{id}(id=${o.id})}">
+                        <span th:text="${o.title}">Title</span>
+                        <span class="badge" th:classappend="${o.daysLeft <= 7} ? 'text-bg-warning' : 'text-bg-light border'"
+                              th:text="${#temporals.format(o.deadline, 'dd MMM yyyy')}">01 Jan 2026</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="eb-panel">
+                <h2 class="h5">Quick links</h2>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-primary" th:href="@{/opportunities}">Find opportunities</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/applications}">My applications</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/profile}">Edit profile</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/recommendations}">Recommended for me</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/calendar}">Deadline calendar</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/notifications}">Notifications & reminders</a>
+                    <a class="btn btn-outline-primary" th:href="@{/student/documents}">Private document vault</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

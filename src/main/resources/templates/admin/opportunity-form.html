@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: adminHead(${editing} ? 'Edit opportunity' : 'Add opportunity')}"></head>
+<body class="eb-admin">
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <h1 class="h3 mb-3" th:text="${editing} ? 'Edit opportunity' : 'Add opportunity'">Add opportunity</h1>
+
+    <div class="alert alert-danger" th:if="${#fields.hasErrors('${opportunity.*}')}">
+        Please fix the highlighted fields and submit again.
+    </div>
+
+    <form method="post" th:action="@{${formAction}}" th:object="${opportunity}" class="eb-panel" novalidate>
+
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" class="form-control" th:field="*{title}"
+                       th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{title}">Error</div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" class="form-select" th:field="*{category}"
+                        th:classappend="${#fields.hasErrors('category')} ? 'is-invalid'">
+                    <option value="">Choose...</option>
+                    <option th:each="c : ${categories}" th:value="${c}" th:text="${c.displayName}">Category</option>
+                </select>
+                <div class="invalid-feedback" th:errors="*{category}">Error</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="organizationName" class="form-label">Organization name</label>
+            <input type="text" id="organizationName" class="form-control" th:field="*{organizationName}"
+                   th:classappend="${#fields.hasErrors('organizationName')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:errors="*{organizationName}">Error</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="shortDescription" class="form-label">Short description (max 250 characters)</label>
+            <textarea id="shortDescription" rows="2" class="form-control" th:field="*{shortDescription}"
+                      th:classappend="${#fields.hasErrors('shortDescription')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:errors="*{shortDescription}">Error</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="detailedDescription" class="form-label">Detailed description</label>
+            <textarea id="detailedDescription" rows="6" class="form-control" th:field="*{detailedDescription}"
+                      th:classappend="${#fields.hasErrors('detailedDescription')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:errors="*{detailedDescription}">Error</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="eligibility" class="form-label">Eligibility requirements</label>
+            <textarea id="eligibility" rows="3" class="form-control" th:field="*{eligibility}"
+                      th:classappend="${#fields.hasErrors('eligibility')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:errors="*{eligibility}">Error</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="deadline" class="form-label">Application deadline</label>
+                <input type="date" id="deadline" class="form-control" th:field="*{deadline}"
+                       th:classappend="${#fields.hasErrors('deadline')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{deadline}">Error</div>
+            </div>
+            <div class="col-md-8 mb-3">
+                <label for="applicationUrl" class="form-label">Official application URL</label>
+                <input type="url" id="applicationUrl" class="form-control" th:field="*{applicationUrl}"
+                       placeholder="https://..."
+                       th:classappend="${#fields.hasErrors('applicationUrl')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{applicationUrl}">Error</div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <div class="form-check">
+                <input type="checkbox" id="published" class="form-check-input" th:field="*{published}">
+                <label for="published" class="form-check-label">Published (visible to students)</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" id="verified" class="form-check-input" th:field="*{verified}">
+                <label for="verified" class="form-check-label">Verified (I checked that this is genuine)</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="${editing} ? 'Save changes' : 'Create opportunity'">Save</button>
+        <a class="btn btn-outline-secondary" th:href="@{/admin/opportunities}">Cancel</a>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

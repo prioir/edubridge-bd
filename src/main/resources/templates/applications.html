@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My applications')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4 my-applications-page">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <h1 class="h3">My applications</h1>
+    <p class="text-muted small">
+        This is your personal tracker. EduBridge does not send applications for you:
+        apply on the official website, then update the status here yourself.
+    </p>
+
+    <div th:if="${#lists.isEmpty(records)}" class="alert alert-info">
+        Nothing tracked yet. Open any opportunity and use the "Application tracker" box.
+    </div>
+
+    <div class="eb-panel p-0 table-responsive" th:if="${!#lists.isEmpty(records)}">
+        <table class="table align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Opportunity</th>
+                    <th>Deadline</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${records}" th:with="o=${opportunityMap[r.opportunityId]}">
+                    <td>
+                        <th:block th:if="${o != null}">
+                            <a th:if="${o.published}" th:href="@{/opportunities/{id}(id=${o.id})}"
+                               th:text="${o.title}" class="fw-semibold">Title</a>
+                            <span th:unless="${o.published}" class="fw-semibold" th:text="${o.title}">Title</span>
+                            <div class="small text-muted" th:text="${o.organizationName}">Org</div>
+                        </th:block>
+                        <span th:if="${o == null}" class="text-muted">(opportunity removed)</span>
+                    </td>
+                    <td>
+                        <th:block th:if="${o != null}">
+                            <span th:text="${#temporals.format(o.deadline, 'dd MMM yyyy')}">01 Jan 2026</span>
+                            <span th:if="${o.expired}" class="badge text-bg-secondary">Expired</span>
+                        </th:block>
+                    </td>
+                    <td>
+                        <form method="post" class="d-flex gap-2"
+                              th:action="@{/student/applications/{id}/status(id=${r.id})}">
+                            <select name="status" class="form-select form-select-sm" aria-label="Status">
+                                <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.displayName}"
+                                        th:selected="${r.status == s}">Status</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td class="text-end">
+                        <a th:if="${o != null}" class="btn btn-sm btn-outline-primary mb-1" th:href="${o.applicationUrl}"
+                           target="_blank" rel="noopener noreferrer">Official site</a>
+                        <form method="post" class="d-inline"
+                              th:action="@{/student/applications/{id}/delete(id=${r.id})}"
+                              onsubmit="return confirm('Remove this tracking record?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger mb-1">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

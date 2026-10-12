@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${opportunity.title})}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <a th:href="@{/opportunities}" class="small">&larr; Back to opportunities</a>
+
+    <div class="row g-4 mt-1">
+        <!-- Main column -->
+        <div class="col-lg-8">
+            <div class="eb-panel">
+                <div class="mb-2">
+                    <span class="badge eb-badge" th:classappend="'eb-' + ${#strings.toLowerCase(opportunity.category.name())}"
+                          th:text="${opportunity.category.displayName}">Category</span>
+                    <span th:if="${opportunity.verified}" class="badge text-bg-light border">&#10003; Verified</span>
+                    <span th:unless="${opportunity.verified}" class="badge text-bg-light border text-muted">Not yet verified</span>
+                    <span th:if="${opportunity.expired}" class="badge text-bg-secondary">Expired</span>
+                </div>
+                <h1 class="h3" th:text="${opportunity.title}">Title</h1>
+                <p class="text-muted" th:text="${opportunity.organizationName}">Organization</p>
+
+                <p class="lead" th:text="${opportunity.shortDescription}">Short description</p>
+
+                <h2 class="h5 mt-4">About this opportunity</h2>
+                <p class="eb-prewrap" th:text="${opportunity.detailedDescription}">Details</p>
+
+                <h2 class="h5 mt-4">Eligibility</h2>
+                <p class="eb-prewrap" th:text="${opportunity.eligibility}">Eligibility</p>
+
+                <p th:unless="${opportunity.verified}" class="small text-muted border-top pt-3 mt-4">
+                    This listing has not been verified by EduBridge yet. Please confirm the details on the official website before you apply.
+                </p>
+            </div>
+        </div>
+
+        <!-- Side column -->
+        <div class="col-lg-4">
+            <div class="eb-panel mb-3">
+                <h2 class="h6 text-uppercase text-muted">Deadline</h2>
+                <p class="h5 mb-1" th:classappend="${opportunity.expired} ? 'text-danger'"
+                   th:text="${#temporals.format(opportunity.deadline, 'dd MMMM yyyy')}">01 January 2026</p>
+                <p class="small mb-3">
+                    <span th:if="${opportunity.expired}" class="text-danger">This opportunity has expired.</span>
+                    <span th:if="${!opportunity.expired and opportunity.daysLeft == 0}" class="text-warning fw-semibold">Last day today!</span>
+                    <span th:if="${!opportunity.expired and opportunity.daysLeft > 0}" class="text-muted"
+                          th:text="${opportunity.daysLeft} + ' day(s) left'">5 days left</span>
+                </p>
+
+                <a class="btn btn-primary w-100" th:href="${opportunity.applicationUrl}"
+                   target="_blank" rel="noopener noreferrer">Apply on official website &#8599;</a>
+                <p class="small text-muted mt-2 mb-0">
+                    You apply on the organization's own site. EduBridge does not submit applications for you.
+                </p>
+            </div>
+
+            <!-- Visitors who are not logged in -->
+            <div class="eb-panel" th:if="${!isLoggedIn}">
+                <p class="mb-2">Want to save this or track your application?</p>
+                <a class="btn btn-outline-primary btn-sm" th:href="@{/login}">Login</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/register}">Register</a>
+            </div>
+
+            <!-- Student tools -->
+            <div class="eb-panel" th:if="${isStudent}">
+                <h2 class="h6 text-uppercase text-muted">Bookmark</h2>
+                <form th:if="${!bookmarked}" method="post"
+                      th:action="@{/student/bookmarks/{id}/add(id=${opportunity.id})}">
+                    <button type="submit" class="btn btn-outline-primary w-100">&#9733; Save to bookmarks</button>
+                </form>
+                <form th:if="${bookmarked}" method="post"
+                      th:action="@{/student/bookmarks/{id}/remove(id=${opportunity.id}, from='details')}">
+                    <button type="submit" class="btn btn-outline-secondary w-100">Remove bookmark</button>
+                </form>
+
+                <h2 class="h6 text-uppercase text-muted mt-4">Application tracker</h2>
+                <p class="small mb-2" th:if="${record != null}">
+                    Current status:
+                    <span class="badge text-bg-primary" th:text="${record.status.displayName}">Planning</span>
+                </p>
+                <form method="post" th:action="@{/student/applications}">
+                    <input type="hidden" name="opportunityId" th:value="${opportunity.id}">
+                    <div class="input-group">
+                        <select name="status" class="form-select" aria-label="Status">
+                            <option th:each="s : ${statuses}" th:value="${s.name()}" th:text="${s.displayName}"
+                                    th:selected="${record != null and record.status == s}">Status</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary"
+                                th:text="${record == null} ? 'Track' : 'Update'">Track</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="eb-panel" th:if="${isAdmin}">
+                <a class="btn btn-outline-primary btn-sm" th:href="@{/admin/opportunities/{id}/edit(id=${opportunity.id})}">Edit in admin</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,1272 @@
+css
+    /* =========================================
+       EduBridge BD - Admin Dark Neon UI
+       File: static/css/admin.css
+       ========================================= */
+
+:root {
+    --admin-bg: #080d1b;
+    --admin-bg-soft: #0e1629;
+    --admin-panel: rgba(17, 27, 49, 0.82);
+    --admin-panel-hover: rgba(25, 39, 67, 0.96);
+    --admin-border: rgba(111, 151, 255, 0.20);
+    --admin-text: #edf3ff;
+    --admin-muted: #9aaaca;
+    --admin-blue: #6585ff;
+    --admin-cyan: #32d9f5;
+    --admin-purple: #a77bff;
+    --admin-green: #39dfa5;
+    --admin-red: #ff6b81;
+    --admin-radius: 18px;
+    --admin-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Main Admin Background ---------- */
+
+body.eb-admin {
+    min-height: 100vh;
+    color: var(--admin-text);
+    background:
+            radial-gradient(
+                    ellipse at 10% 0%,
+                    rgba(75, 100, 255, 0.18),
+                    transparent 35%
+            ),
+            radial-gradient(
+                    ellipse at 90% 10%,
+                    rgba(40, 214, 245, 0.10),
+                    transparent 30%
+            ),
+            linear-gradient(135deg, #080d1b 0%, #0b1222 55%, #10132a 100%);
+    background-attachment: fixed;
+}
+
+/* Keep admin page text readable */
+.eb-admin h1,
+.eb-admin h2,
+.eb-admin h3,
+.eb-admin h4,
+.eb-admin h5,
+.eb-admin h6 {
+    color: var(--admin-text);
+    font-weight: 700;
+}
+
+.eb-admin p,
+.eb-admin .text-muted,
+.eb-admin small {
+    color: var(--admin-muted) !important;
+}
+
+/* ---------- Admin Navbar ---------- */
+
+.eb-admin .eb-navbar,
+.eb-admin .navbar {
+    background: rgba(8, 13, 27, 0.86) !important;
+    border-bottom: 1px solid var(--admin-border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.eb-admin .navbar-brand,
+.eb-admin .navbar .nav-link {
+    color: var(--admin-text) !important;
+}
+
+.eb-admin .navbar .nav-link {
+    transition: color 0.2s ease;
+}
+
+.eb-admin .navbar .nav-link:hover,
+.eb-admin .navbar .nav-link.active {
+    color: var(--admin-cyan) !important;
+}
+
+/* ---------- Page Header ---------- */
+
+.eb-admin .admin-page-header,
+.eb-admin .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.eb-admin .admin-page-header p,
+.eb-admin .page-header p {
+    margin-bottom: 0;
+    color: var(--admin-muted);
+}
+
+/* ---------- Glass Panels ---------- */
+
+.eb-admin .eb-panel,
+.eb-admin .card,
+.eb-admin .admin-panel {
+    color: var(--admin-text);
+    background: var(--admin-panel) !important;
+    border: 1px solid var(--admin-border) !important;
+    border-radius: var(--admin-radius) !important;
+    box-shadow: var(--admin-shadow);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
+    transition:
+            border-color 0.25s ease,
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+}
+
+.eb-admin .eb-panel:hover,
+.eb-admin .admin-panel:hover {
+    border-color: rgba(101, 133, 255, 0.42) !important;
+}
+
+.eb-admin .card-header,
+.eb-admin .card-footer {
+    color: var(--admin-text);
+    background: rgba(255, 255, 255, 0.025) !important;
+    border-color: var(--admin-border) !important;
+}
+
+/* ---------- Dashboard Statistics ---------- */
+
+.eb-admin .eb-summary,
+.eb-admin .admin-stats,
+.eb-admin .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.eb-admin .eb-stat,
+.eb-admin .admin-stat-card,
+.eb-admin .stat-card {
+    position: relative;
+    padding: 24px;
+    min-height: 140px;
+    color: var(--admin-text);
+    background:
+            linear-gradient(
+                    145deg,
+                    rgba(25, 40, 72, 0.92),
+                    rgba(13, 22, 42, 0.94)
+            ) !important;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    box-shadow: var(--admin-shadow);
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.eb-admin .eb-stat::before,
+.eb-admin .admin-stat-card::before,
+.eb-admin .stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(
+            90deg,
+            var(--admin-blue),
+            var(--admin-cyan)
+    );
+}
+
+.eb-admin .eb-stat:hover,
+.eb-admin .admin-stat-card:hover,
+.eb-admin .stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(50, 217, 245, 0.48);
+}
+
+.eb-admin .eb-stat h2,
+.eb-admin .eb-stat h3,
+.eb-admin .admin-stat-card h2,
+.eb-admin .admin-stat-card h3,
+.eb-admin .stat-card h2,
+.eb-admin .stat-card h3 {
+    margin: 12px 0 6px;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: var(--admin-text);
+}
+
+.eb-admin .eb-stat p,
+.eb-admin .admin-stat-card p,
+.eb-admin .stat-card p {
+    margin: 0;
+    color: var(--admin-muted);
+    font-size: 0.9rem;
+}
+
+/* ---------- Tables: Dashboard & Manage Opportunities ---------- */
+
+.eb-admin .table-responsive {
+    border-radius: 12px;
+}
+
+.eb-admin .table {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--admin-text) !important;
+    vertical-align: middle;
+    --bs-table-color: var(--admin-text);
+    --bs-table-bg: transparent;
+    --bs-table-border-color: rgba(111, 151, 255, 0.14);
+    --bs-table-striped-bg: rgba(101, 133, 255, 0.045);
+    --bs-table-hover-bg: rgba(50, 217, 245, 0.055);
+    --bs-table-hover-color: var(--admin-text);
+}
+
+.eb-admin .table thead th,
+.eb-admin .table-light th,
+.eb-admin .table thead.table-light th {
+    padding: 15px 16px;
+    color: #b9caff !important;
+    background: rgba(101, 133, 255, 0.10) !important;
+    border-color: var(--admin-border) !important;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.055em;
+    white-space: nowrap;
+}
+
+.eb-admin .table tbody td {
+    padding: 15px 16px;
+    color: #dce6ff !important;
+    background: transparent !important;
+    border-color: rgba(111, 151, 255, 0.12) !important;
+}
+
+.eb-admin .table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.eb-admin .table tbody tr:hover td {
+    background: rgba(50, 217, 245, 0.045) !important;
+}
+
+.eb-admin .table a:not(.btn) {
+    color: var(--admin-cyan);
+    text-decoration: none;
+}
+
+.eb-admin .table a:not(.btn):hover {
+    color: #a4f1ff;
+    text-decoration: underline;
+}
+
+/* ---------- Buttons ---------- */
+
+.eb-admin .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+}
+
+.eb-admin .btn:hover {
+    transform: translateY(-1px);
+}
+
+.eb-admin .btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #536fff, #8065ff);
+    border-color: transparent;
+    box-shadow: 0 5px 18px rgba(83, 111, 255, 0.20);
+}
+
+.eb-admin .btn-primary:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #6680ff, #967bff);
+    box-shadow: 0 7px 22px rgba(83, 111, 255, 0.30);
+}
+
+.eb-admin .btn-info {
+    color: #071725;
+    background: var(--admin-cyan);
+    border-color: var(--admin-cyan);
+}
+
+.eb-admin .btn-success {
+    color: #06251b;
+    background: var(--admin-green);
+    border-color: var(--admin-green);
+}
+
+.eb-admin .btn-danger {
+    color: #fff;
+    background: #e94f6c;
+    border-color: #e94f6c;
+}
+
+.eb-admin .btn-outline-primary {
+    color: #a9baff;
+    border-color: rgba(101, 133, 255, 0.65);
+}
+
+.eb-admin .btn-outline-primary:hover {
+    color: #fff;
+    background: rgba(101, 133, 255, 0.18);
+}
+
+.eb-admin .btn-outline-secondary,
+.eb-admin .btn-secondary {
+    color: #dce6ff;
+    background: rgba(255, 255, 255, 0.045);
+    border-color: var(--admin-border);
+}
+
+.eb-admin .btn-outline-secondary:hover,
+.eb-admin .btn-secondary:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+/* ---------- Forms & Search ---------- */
+
+.eb-admin .form-label {
+    color: #cbd7f4;
+    font-weight: 600;
+}
+
+.eb-admin .form-control,
+.eb-admin .form-select,
+.eb-admin input:not([type="checkbox"]):not([type="radio"]),
+.eb-admin select,
+.eb-admin textarea {
+    color: var(--admin-text);
+    background-color: rgba(5, 11, 25, 0.72);
+    border: 1px solid rgba(111, 151, 255, 0.25);
+    border-radius: 10px;
+    min-height: 42px;
+}
+
+.eb-admin textarea {
+    min-height: 110px;
+}
+
+.eb-admin .form-control::placeholder,
+.eb-admin input::placeholder,
+.eb-admin textarea::placeholder {
+    color: #7787a8;
+    opacity: 1;
+}
+
+.eb-admin .form-control:focus,
+.eb-admin .form-select:focus,
+.eb-admin input:focus,
+.eb-admin select:focus,
+.eb-admin textarea:focus {
+    color: var(--admin-text);
+    background-color: rgba(8, 15, 32, 0.96);
+    border-color: var(--admin-cyan);
+    box-shadow: 0 0 0 3px rgba(50, 217, 245, 0.10);
+    outline: none;
+}
+
+.eb-admin .form-select option {
+    color: var(--admin-text);
+    background: var(--admin-bg-soft);
+}
+
+/* ---------- Status Badges ---------- */
+
+.eb-admin .badge {
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-weight: 650;
+    letter-spacing: 0.015em;
+}
+
+.eb-admin .badge.bg-success {
+    color: #8cf6ca !important;
+    background: rgba(57, 223, 165, 0.13) !important;
+    border: 1px solid rgba(57, 223, 165, 0.25);
+}
+
+.eb-admin .badge.bg-danger {
+    color: #ff9bab !important;
+    background: rgba(255, 107, 129, 0.13) !important;
+    border: 1px solid rgba(255, 107, 129, 0.25);
+}
+
+.eb-admin .badge.bg-warning {
+    color: #ffe09a !important;
+    background: rgba(255, 193, 7, 0.12) !important;
+    border: 1px solid rgba(255, 193, 7, 0.24);
+}
+
+.eb-admin .badge.bg-primary,
+.eb-admin .badge.bg-info {
+    color: #a9edff !important;
+    background: rgba(50, 217, 245, 0.12) !important;
+    border: 1px solid rgba(50, 217, 245, 0.24);
+}
+
+/* ---------- Alerts ---------- */
+
+.eb-admin .alert {
+    color: var(--admin-text);
+    background: rgba(101, 133, 255, 0.09);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+}
+
+.eb-admin .alert-success {
+    color: #9af3cd;
+    background: rgba(57, 223, 165, 0.09);
+    border-color: rgba(57, 223, 165, 0.25);
+}
+
+.eb-admin .alert-danger {
+    color: #ffb0bd;
+    background: rgba(255, 107, 129, 0.09);
+    border-color: rgba(255, 107, 129, 0.25);
+}
+
+/* ---------- Pagination ---------- */
+
+.eb-admin .pagination .page-link {
+    color: #cbd7f4;
+    background: rgba(17, 27, 49, 0.85);
+    border-color: var(--admin-border);
+}
+
+.eb-admin .pagination .page-item.active .page-link {
+    color: #fff;
+    background: var(--admin-blue);
+    border-color: var(--admin-blue);
+}
+
+.eb-admin .pagination .page-link:hover {
+    color: #fff;
+    background: rgba(101, 133, 255, 0.22);
+}
+
+/* ---------- Footer ---------- */
+
+.eb-admin .eb-footer,
+.eb-admin footer {
+    color: var(--admin-muted);
+    background: rgba(8, 13, 27, 0.65);
+    border-top: 1px solid var(--admin-border);
+}
+
+/* ---------- Bootstrap white/light overrides ---------- */
+
+.eb-admin .bg-white,
+.eb-admin .bg-light,
+.eb-admin .table-light,
+.eb-admin .list-group-item {
+    color: var(--admin-text) !important;
+    background-color: rgba(17, 27, 49, 0.82) !important;
+    border-color: var(--admin-border) !important;
+}
+
+.eb-admin .border,
+.eb-admin .border-bottom,
+.eb-admin .border-top {
+    border-color: var(--admin-border) !important;
+}
+
+/* ---------- Responsive Layout ---------- */
+
+@media (max-width: 992px) {
+    .eb-admin .eb-summary,
+    .eb-admin .admin-stats,
+    .eb-admin .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .eb-admin .eb-summary,
+    .eb-admin .admin-stats,
+    .eb-admin .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .eb-admin .eb-stat,
+    .eb-admin .admin-stat-card,
+    .eb-admin .stat-card {
+        padding: 19px;
+        min-height: 115px;
+    }
+
+    .eb-admin .admin-page-header,
+    .eb-admin .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .eb-admin .table thead th,
+    .eb-admin .table tbody td {
+        padding: 12px 10px;
+        font-size: 0.84rem;
+    }
+
+    .eb-admin .btn {
+        font-size: 0.85rem;
+    }
+}
+css
+       /* ==========================================
+          EduBridge BD - Admin Theme Color Fix
+          Matches the main style.css dark neon theme
+          ========================================== */
+
+   body.eb-admin {
+       color: #edf1ff !important;
+       background:
+               radial-gradient(ellipse at 10% 0%, #536dff20, transparent 36%),
+               radial-gradient(ellipse at 90% 5%, #24caff12, transparent 32%),
+               #080e20 !important;
+   }
+
+/* Main content and headings */
+.eb-admin .admin-content {
+    color: #edf1ff !important;
+}
+
+.eb-admin .admin-content h1,
+.eb-admin .admin-content h2,
+.eb-admin .admin-content h3,
+.eb-admin .admin-content h4,
+.eb-admin .admin-content h5,
+.eb-admin .admin-content h6 {
+    color: #f2f4ff !important;
+}
+
+.eb-admin .admin-dashboard-title {
+    color: #ffffff !important;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.eb-admin .admin-dashboard-subtitle,
+.eb-admin .admin-stat-caption,
+.eb-admin .admin-recent-subtitle {
+    color: #aab5d2 !important;
+}
+
+.eb-admin .admin-eyebrow,
+.eb-admin .admin-section-label {
+    color: #a99aff !important;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+/* Statistics cards */
+.eb-admin .admin-stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 22px;
+    color: #edf1ff !important;
+    background: linear-gradient(
+            145deg,
+            rgba(20, 31, 62, 0.96),
+            rgba(11, 19, 42, 0.98)
+    ) !important;
+    border: 1px solid rgba(153, 174, 255, 0.24) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.eb-admin .admin-stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(83, 109, 255, 0.75) !important;
+}
+
+.eb-admin .admin-stat-label {
+    color: #b9c6e8 !important;
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.eb-admin .admin-stat-number {
+    display: block;
+    margin: 15px 0 8px;
+    color: #c0b0ff !important;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.eb-admin .admin-stat-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    color: #bca8ff !important;
+    background: rgba(131, 91, 255, 0.15);
+    border: 1px solid rgba(153, 120, 255, 0.25);
+    border-radius: 12px;
+    font-size: 1.15rem;
+}
+
+.eb-admin .stat-blue {
+    border-top: 2px solid #536dff !important;
+}
+
+.eb-admin .stat-blue .admin-stat-number {
+    color: #91a8ff !important;
+}
+
+.eb-admin .stat-green {
+    border-top: 2px solid #20d9ad !important;
+}
+
+.eb-admin .stat-green .admin-stat-number {
+    color: #67f0c8 !important;
+}
+
+.eb-admin .stat-amber {
+    border-top: 2px solid #ffb454 !important;
+}
+
+.eb-admin .stat-amber .admin-stat-number {
+    color: #ffd08b !important;
+}
+
+.eb-admin .stat-violet {
+    border-top: 2px solid #a66cff !important;
+}
+
+.eb-admin .stat-violet .admin-stat-number {
+    color: #c6a1ff !important;
+}
+
+.eb-admin .admin-stat-decoration {
+    position: absolute;
+    right: -28px;
+    bottom: -38px;
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(
+            circle,
+            rgba(131, 91, 255, 0.13),
+            transparent 70%
+    );
+    pointer-events: none;
+}
+
+/* Recent opportunities panel */
+.eb-admin .admin-recent-panel,
+.eb-admin .eb-panel {
+    color: #edf1ff !important;
+    background: rgba(14, 24, 51, 0.90) !important;
+    border: 1px solid rgba(153, 174, 255, 0.20) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+}
+
+.eb-admin .admin-panel-heading {
+    padding: 24px;
+    border-bottom: 1px solid rgba(153, 174, 255, 0.15);
+}
+
+.eb-admin .admin-panel-title {
+    color: #f2f4ff !important;
+    font-weight: 750;
+}
+
+.eb-admin .admin-manage-link {
+    color: #9eacff !important;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.eb-admin .admin-manage-link:hover {
+    color: #45dcff !important;
+}
+
+/* Table: override Bootstrap's light backgrounds */
+.eb-admin .admin-dashboard-table,
+.eb-admin .admin-content .table {
+    color: #edf1ff !important;
+    background: transparent !important;
+    --bs-table-color: #edf1ff;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: rgba(153, 174, 255, 0.14);
+    --bs-table-striped-bg: rgba(83, 109, 255, 0.045);
+    --bs-table-hover-bg: rgba(83, 109, 255, 0.09);
+    --bs-table-hover-color: #ffffff;
+}
+
+.eb-admin .admin-dashboard-table thead th,
+.eb-admin .admin-content .table thead th {
+    padding: 16px;
+    color: #aebeff !important;
+    background: rgba(83, 109, 255, 0.10) !important;
+    border-color: rgba(153, 174, 255, 0.18) !important;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.eb-admin .admin-dashboard-table tbody td,
+.eb-admin .admin-content .table tbody td {
+    padding: 16px;
+    color: #dce5ff !important;
+    background-color: transparent !important;
+    border-color: rgba(153, 174, 255, 0.12) !important;
+}
+
+.eb-admin .admin-dashboard-table tbody tr:hover td,
+.eb-admin .admin-content .table tbody tr:hover td {
+    background: rgba(83, 109, 255, 0.06) !important;
+}
+
+.eb-admin .admin-recent-title {
+    color: #f0f3ff !important;
+    font-weight: 700;
+}
+
+.eb-admin .admin-recent-subtitle {
+    margin-top: 4px;
+    font-size: 0.78rem;
+}
+
+/* Category badges */
+.eb-admin .admin-category-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    color: #cbb7ff !important;
+    background: rgba(173, 91, 255, 0.13);
+    border: 1px solid rgba(173, 91, 255, 0.24);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 650;
+}
+
+.eb-admin .admin-deadline-text {
+    color: #c0cbe5 !important;
+}
+
+/* Published / Draft */
+.eb-admin .admin-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.eb-admin .status-published {
+    color: #68f0c5 !important;
+    background: rgba(0, 218, 171, 0.10);
+    border: 1px solid rgba(0, 218, 171, 0.22);
+}
+
+.eb-admin .status-draft {
+    color: #ffd08b !important;
+    background: rgba(255, 166, 64, 0.10);
+    border: 1px solid rgba(255, 166, 64, 0.22);
+}
+
+.eb-admin .admin-status-dot {
+    width: 7px;
+    height: 7px;
+    flex: 0 0 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Empty state and bottom note */
+.eb-admin .admin-empty-icon {
+    color: #a99aff;
+    font-size: 2rem;
+}
+
+.eb-admin .admin-dashboard-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    color: #b9c6e8 !important;
+    background: rgba(83, 109, 255, 0.07);
+    border: 1px solid rgba(153, 174, 255, 0.15);
+    border-radius: 12px;
+    font-size: 0.88rem;
+}
+
+.eb-admin .admin-note-icon {
+    color: #6fdfff;
+}
+
+/* Forms, labels and placeholders */
+.eb-admin .admin-content .form-label {
+    color: #cbd5f3 !important;
+}
+
+.eb-admin .admin-content .form-control,
+.eb-admin .admin-content .form-select {
+    color: #edf1ff !important;
+    background-color: #101a35 !important;
+    border-color: #344266 !important;
+    border-radius: 10px;
+}
+
+.eb-admin .admin-content .form-control::placeholder {
+    color: #8592b6 !important;
+}
+
+.eb-admin .admin-content .form-control:focus,
+.eb-admin .admin-content .form-select:focus {
+    border-color: #8d68ff !important;
+    box-shadow: 0 0 0 0.2rem rgba(132, 87, 255, 0.20) !important;
+}
+
+.eb-admin .admin-content .form-select option {
+    color: #edf1ff;
+    background: #101a35;
+}
+
+/* Links and buttons */
+.eb-admin .admin-content a:not(.btn) {
+    transition: color 0.2s ease;
+}
+
+.eb-admin .admin-content .btn-primary {
+    color: #fff !important;
+    background: linear-gradient(110deg, #8646f7, #386bff) !important;
+    border: 0 !important;
+    box-shadow: 0 5px 20px rgba(101, 70, 255, 0.22);
+}
+
+.eb-admin .admin-content .btn-primary:hover {
+    background: linear-gradient(110deg, #9b5cff, #5280ff) !important;
+}
+
+.eb-admin .admin-content .text-muted,
+.eb-admin .admin-content small.text-muted {
+    color: #aab5d2 !important;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .eb-admin .admin-panel-heading {
+        padding: 18px;
+    }
+
+    .eb-admin .admin-stat-card {
+        padding: 16px;
+    }
+
+    .eb-admin .admin-dashboard-table thead th,
+    .eb-admin .admin-dashboard-table tbody td {
+        padding: 12px;
+    }
+}
+
+
+css
+       /* ===================================
+          FINAL FIX: Admin Navbar + Stat Cards
+          =================================== */
+
+       /* Navbar background and navigation text */
+   body.eb-admin nav.eb-navbar,
+   body.eb-admin .eb-navbar,
+   body.eb-admin nav.navbar {
+       background: rgba(5, 11, 27, 0.97) !important;
+       border-bottom: 1px solid rgba(140, 160, 255, 0.22) !important;
+   }
+
+/* Fix black text in Dashboard / Manage navbar links */
+body.eb-admin .eb-navbar a,
+body.eb-admin .eb-navbar .nav-link,
+body.eb-admin .eb-navbar .navbar-nav .nav-link,
+body.eb-admin nav.navbar a,
+body.eb-admin nav.navbar .nav-link {
+    color: #c2cbe4 !important;
+    -webkit-text-fill-color: #c2cbe4;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+body.eb-admin .eb-navbar a:hover,
+body.eb-admin .eb-navbar .nav-link:hover,
+body.eb-admin .eb-navbar .nav-link.active,
+body.eb-admin nav.navbar a:hover,
+body.eb-admin nav.navbar .nav-link.active {
+    color: #45dcff !important;
+    -webkit-text-fill-color: #45dcff;
+}
+
+/* Brand name */
+body.eb-admin .eb-navbar .navbar-brand,
+body.eb-admin nav.navbar .navbar-brand {
+    color: #f7f8ff !important;
+    -webkit-text-fill-color: #f7f8ff;
+    font-weight: 800;
+}
+
+/* Navbar dropdown */
+body.eb-admin .navbar .dropdown-menu {
+    background: #101a35 !important;
+    border: 1px solid rgba(153, 174, 255, 0.22) !important;
+}
+
+body.eb-admin .navbar .dropdown-item {
+    color: #dce5ff !important;
+    -webkit-text-fill-color: #dce5ff;
+}
+
+body.eb-admin .navbar .dropdown-item:hover {
+    color: #ffffff !important;
+    background: rgba(83, 109, 255, 0.18) !important;
+}
+
+/* Fix stat-card text sequence and alignment */
+body.eb-admin .admin-stat-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    min-width: 0;
+    text-align: left !important;
+}
+
+/* First row: label left, icon right */
+body.eb-admin .admin-stat-card .admin-stat-top {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px;
+    width: 100%;
+    min-height: 40px;
+}
+
+body.eb-admin .admin-stat-card .admin-stat-label {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #b9c6e8 !important;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+body.eb-admin .admin-stat-card .admin-stat-icon {
+    order: 2;
+    flex: 0 0 40px;
+    margin-left: auto;
+}
+
+/* Second row: number */
+body.eb-admin .admin-stat-card .admin-stat-number {
+    order: 2;
+    display: block !important;
+    margin: 18px 0 8px !important;
+    color: #91a8ff !important;
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15;
+    text-align: left !important;
+}
+
+/* Third row: description */
+body.eb-admin .admin-stat-card .admin-stat-caption {
+    order: 3;
+    display: block;
+    margin-top: 0;
+    color: #aab5d2 !important;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    text-align: left !important;
+}
+
+/* Keep decoration behind text */
+body.eb-admin .admin-stat-card .admin-stat-decoration {
+    z-index: 0;
+    pointer-events: none;
+}
+
+body.eb-admin .admin-stat-card .admin-stat-top,
+body.eb-admin .admin-stat-card .admin-stat-number,
+body.eb-admin .admin-stat-card .admin-stat-caption {
+    position: relative;
+    z-index: 1;
+}
+
+/* Published / unpublished / student count colors */
+body.eb-admin .admin-stat-card.stat-green .admin-stat-number {
+    color: #67f0c8 !important;
+}
+
+body.eb-admin .admin-stat-card.stat-amber .admin-stat-number {
+    color: #ffd08b !important;
+}
+
+body.eb-admin .admin-stat-card.stat-violet .admin-stat-number {
+    color: #c6a1ff !important;
+}
+
+/* Mobile card alignment */
+@media (max-width: 575.98px) {
+    body.eb-admin .admin-stat-card {
+        padding: 14px !important;
+    }
+
+    body.eb-admin .admin-stat-card .admin-stat-label {
+        font-size: 0.78rem;
+    }
+
+    body.eb-admin .admin-stat-card .admin-stat-number {
+        font-size: 1.8rem !important;
+        margin-top: 14px !important;
+    }
+}
+
+
+
+css
+       /* Fix Manage Opportunities page heading */
+   body.eb-admin .admin-content h1,
+   body.eb-admin .admin-content h2,
+   body.eb-admin .admin-content .page-title,
+   body.eb-admin .admin-content .admin-page-title,
+   body.eb-admin .admin-content .admin-dashboard-title {
+       color: #f2f4ff !important;
+       -webkit-text-fill-color: #f2f4ff !important;
+   }
+
+/* Fix Manage Opportunities heading and subtitle */
+body.eb-admin .admin-content .admin-page-header *,
+body.eb-admin .admin-content .admin-dashboard-header * {
+    color: #edf1ff;
+}
+
+body.eb-admin .admin-content .admin-page-header h1,
+body.eb-admin .admin-content .admin-page-header h2,
+body.eb-admin .admin-content .admin-dashboard-header h1 {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Fix logged-in email in navbar */
+body.eb-admin .eb-navbar .navbar-text,
+body.eb-admin .eb-navbar .nav-link,
+body.eb-admin .eb-navbar .dropdown-toggle,
+body.eb-admin .eb-navbar .dropdown-toggle span,
+body.eb-admin .eb-navbar .user-email,
+body.eb-admin .eb-navbar .nav-item,
+body.eb-admin nav.navbar .navbar-text,
+body.eb-admin nav.navbar .dropdown-toggle {
+    color: #cbd7ff !important;
+    -webkit-text-fill-color: #cbd7ff !important;
+}
+
+/* Keep navbar email visible on hover and focus */
+body.eb-admin .eb-navbar .navbar-text:hover,
+body.eb-admin .eb-navbar .dropdown-toggle:hover,
+body.eb-admin .eb-navbar .dropdown-toggle:focus,
+body.eb-admin nav.navbar .dropdown-toggle:hover {
+    color: #45dcff !important;
+    -webkit-text-fill-color: #45dcff !important;
+}
+
+/* If email is rendered inside a nested element */
+body.eb-admin .eb-navbar .navbar-text *,
+body.eb-admin .eb-navbar .dropdown-toggle *,
+body.eb-admin nav.navbar .navbar-text * {
+    color: #cbd7ff !important;
+    -webkit-text-fill-color: #cbd7ff !important;
+}
+
+
+css
+       /* Navbar logged-in user name/email */
+   body.eb-admin .eb-navbar .eb-navbar-user {
+       color: #cbd7ff !important;
+       -webkit-text-fill-color: #cbd7ff !important;
+       opacity: 1 !important;
+       font-weight: 600;
+   }
+
+/* Admin navbar links */
+body.eb-admin .eb-navbar .navbar-nav .nav-link {
+    color: #c2cbe4 !important;
+    -webkit-text-fill-color: #c2cbe4 !important;
+}
+
+body.eb-admin .eb-navbar .navbar-nav .nav-link:hover,
+body.eb-admin .eb-navbar .navbar-nav .nav-link:focus {
+    color: #45dcff !important;
+    -webkit-text-fill-color: #45dcff !important;
+}
+
+
+
+
+/* ===== Manage Opportunities: Dark Neon Fix ===== */
+
+body.eb-admin .admin-page-title {
+    color: #edf1ff !important;
+    -webkit-text-fill-color: #edf1ff !important;
+    font-weight: 800;
+}
+
+/* Dark table */
+body.eb-admin .eb-panel .table {
+    --bs-table-color: #edf1ff;
+    --bs-table-bg: transparent;
+    --bs-table-border-color: rgba(153, 174, 255, 0.16);
+    --bs-table-hover-color: #ffffff;
+    --bs-table-hover-bg: rgba(83, 109, 255, 0.10);
+
+    color: #edf1ff !important;
+    background: transparent !important;
+    margin-bottom: 0;
+}
+
+body.eb-admin .eb-panel .table thead,
+body.eb-admin .eb-panel .table thead.table-light {
+    --bs-table-color: #cbd7ff;
+    --bs-table-bg: #172448;
+    color: #cbd7ff !important;
+    background: #172448 !important;
+}
+
+body.eb-admin .eb-panel .table th,
+body.eb-admin .eb-panel .table td {
+    color: #edf1ff !important;
+    background-color: transparent;
+    border-color: rgba(153, 174, 255, 0.16) !important;
+    vertical-align: middle;
+}
+
+body.eb-admin .eb-panel .table thead th {
+    color: #cbd7ff !important;
+    background-color: #172448 !important;
+    font-weight: 700;
+}
+
+body.eb-admin .eb-panel .table .text-muted {
+    color: #aab5d2 !important;
+    -webkit-text-fill-color: #aab5d2 !important;
+}
+
+/* Keep action buttons readable */
+body.eb-admin .eb-panel .btn-outline-primary {
+    color: #b8c5ff !important;
+    border-color: #6578ff !important;
+}
+
+body.eb-admin .eb-panel .btn-outline-secondary {
+    color: #d5ddf5 !important;
+    border-color: #62708f !important;
+}
+
+body.eb-admin .eb-panel .btn-outline-danger {
+    color: #ff9da9 !important;
+    border-color: #ff687d !important;
+}
+
+body.eb-admin .eb-panel .btn-outline-primary:hover,
+body.eb-admin .eb-panel .btn-outline-secondary:hover,
+body.eb-admin .eb-panel .btn-outline-danger:hover {
+    background: rgba(83, 109, 255, 0.15) !important;
+}
+
+/* Organization name and empty-state text */
+body.eb-admin .eb-panel .small.text-muted,
+body.eb-admin .eb-panel .text-center.text-muted {
+    color: #aab5d2 !important;
+}
+
+/* Fix light badge that clashes with dark theme */
+body.eb-admin .eb-panel .badge.text-bg-light {
+    color: #cbd7ff !important;
+    background: #202e52 !important;
+    border-color: #52658f !important;
+}
+
+
+/* ===== FINAL ADMIN TEXT COLOR FIX ===== */
+
+/* Navbar email and user name */
+body.eb-admin .eb-navbar .text-muted,
+body.eb-admin .eb-navbar .eb-navbar-user {
+    color: #cbd7ff !important;
+    -webkit-text-fill-color: #cbd7ff !important;
+    opacity: 1 !important;
+}
+
+/* Dashboard headings */
+body.eb-admin .admin-dashboard-title,
+body.eb-admin .admin-panel-title,
+body.eb-admin .admin-dashboard-header h1,
+body.eb-admin .admin-dashboard-header h2,
+body.eb-admin .admin-content h1,
+body.eb-admin .admin-content h2 {
+    color: #edf1ff !important;
+    -webkit-text-fill-color: #edf1ff !important;
+}
+
+/* Manage and Edit page headings */
+body.eb-admin main h1,
+body.eb-admin main h2,
+body.eb-admin main h3,
+body.eb-admin main .h1,
+body.eb-admin main .h2,
+body.eb-admin main .h3 {
+    color: #edf1ff !important;
+    -webkit-text-fill-color: #edf1ff !important;
+}
+
+/* Text inside admin panels */
+body.eb-admin .eb-panel,
+body.eb-admin .eb-panel p,
+body.eb-admin .eb-panel label,
+body.eb-admin .eb-panel .form-label,
+body.eb-admin .eb-panel .form-text {
+    color: #edf1ff;
+}
+
+/* Muted text */
+body.eb-admin main .text-muted {
+    color: #aab5d2 !important;
+    -webkit-text-fill-color: #aab5d2 !important;
+}
+
+/* Edit form fields */
+body.eb-admin main .form-control,
+body.eb-admin main .form-select,
+body.eb-admin main textarea {
+    color: #edf1ff !important;
+    background-color: #101a35 !important;
+    border-color: #344266 !important;
+}
+
+body.eb-admin main .form-control::placeholder,
+body.eb-admin main textarea::placeholder {
+    color: #8998bb !important;
+    -webkit-text-fill-color: #8998bb !important;
+}
+
+/* Keep dropdown options readable */
+body.eb-admin main .form-select option {
+    color: #edf1ff;
+    background: #101a35;
+}

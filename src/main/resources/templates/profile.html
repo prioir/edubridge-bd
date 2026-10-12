@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My profile')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container mt-4">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <div class="eb-auth-card eb-wide mx-auto">
+        <h1 class="h4 mb-3">My profile</h1>
+
+        <section class="eb-profile-photo-section mb-4" aria-labelledby="profilePhotoHeading">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <img th:if="${currentUserProfilePictureUrl != null}"
+                     th:src="@{${currentUserProfilePictureUrl}}" alt="Your profile picture"
+                     class="eb-profile-avatar">
+                <span th:unless="${currentUserProfilePictureUrl != null}"
+                      class="eb-profile-avatar eb-avatar-fallback" aria-label="Default profile icon">
+                    <svg viewBox="0 0 24 24" focusable="false"><path d="M12 12a4.2 4.2 0 1 0 0-8.4A4.2 4.2 0 0 0 12 12Zm0 2c-4.2 0-7.5 2.2-7.5 5v1.4h15V19c0-2.8-3.3-5-7.5-5Z"/></svg>
+                </span>
+                <div>
+                    <h2 id="profilePhotoHeading" class="h6 mb-1">Profile picture</h2>
+                    <p class="small text-muted mb-0">JPG, PNG or WebP · Maximum 2 MB</p>
+                </div>
+            </div>
+            <form method="post" th:action="@{/student/profile/photo}" enctype="multipart/form-data"
+                  class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <input class="form-control" type="file" name="profilePicture" id="profilePicture"
+                       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+                <button type="submit" class="btn btn-outline-primary">Upload photo</button>
+            </form>
+            <form th:if="${currentUserProfilePictureUrl != null}" method="post"
+                  th:action="@{/student/profile/photo/remove}" class="m-0">
+                <button type="submit" class="btn btn-link btn-sm text-danger px-0"
+                        onclick="return confirm('Remove your profile picture?')">Remove photo</button>
+            </form>
+        </section>
+
+        <form method="post" th:action="@{/student/profile}" th:object="${profileForm}" novalidate>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="text" class="form-control" th:value="${email}" disabled>
+                <div class="form-text">Your email is your login name and cannot be changed here.</div>
+            </div>
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Full name</label>
+                <input type="text" id="fullName" class="form-control" th:field="*{fullName}"
+                       th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{fullName}">Error</div>
+            </div>
+            <div class="mb-3">
+                <label for="university" class="form-label">University</label>
+                <input type="text" id="university" class="form-control" th:field="*{university}"
+                       th:classappend="${#fields.hasErrors('university')} ? 'is-invalid'">
+                <div class="invalid-feedback" th:errors="*{university}">Error</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="department" class="form-label">Department</label>
+                    <input type="text" id="department" class="form-control" th:field="*{department}"
+                           th:classappend="${#fields.hasErrors('department')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{department}">Error</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="studyLevel" class="form-label">Study level</label>
+                    <select id="studyLevel" class="form-select" th:field="*{studyLevel}"
+                            th:classappend="${#fields.hasErrors('studyLevel')} ? 'is-invalid'">
+                        <option value="">Choose...</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Undergraduate">Undergraduate</option>
+                        <option value="Masters">Masters</option>
+                        <option value="PhD">PhD</option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{studyLevel}">Error</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="interests" class="form-label">Interests</label>
+                <textarea id="interests" rows="3" class="form-control" th:field="*{interests}"
+                          placeholder="For example: software, research, public speaking"
+                          th:classappend="${#fields.hasErrors('interests')} ? 'is-invalid'"></textarea>
+                <div class="invalid-feedback" th:errors="*{interests}">Error</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
